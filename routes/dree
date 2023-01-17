@@ -1,0 +1,180 @@
+<?php
+
+namespace App\Http\Controllers;
+use App\Models\BillCategory;
+use App\Models\Bill;
+use App\Models\BillTransaction;
+
+use Illuminate\Http\Request;
+use App\CentralLogics\Helpers;
+use CodeDredd\Soap\Facades\Soap;
+use Brian2694\Toastr\Facades\Toastr;
+
+class BillController extends Controller
+{
+    public function billcategories(){
+        $bill_categories = BillCategory::all();
+        return view('pages.billcategories', [
+            'bill_categories'   => $bill_categories,
+            'pageTitle'         => 'Pay Bills'
+        ]);
+    }
+
+    public function viewbillcategory($id){
+        $bill_category = BillCategory::find($id);
+        //$get_bills = BillCategory::with('bills')->find($id);
+
+        $get_bills = Bill::with('bill_category')->where('bill_category_id', $id)->get();
+
+       // $get_bills = Bill::where('bill_category_id',$id);
+        return view('pages.billcategory', [
+            'get_bills'         => $get_bills,
+            'pageTitle'         => $bill_category->bill_category_name
+        ]);
+       
+    }
+
+    public function testingform(){
+        return view('pages.testing', [
+            'pageTitle'         => 'Add Bill Category'
+        ]);
+    }
+
+    public function validatemeterform(){
+        return view('pages.bill_forms.validate_meter', [
+            'pageTitle'         => 'Check Meter'
+        ]);
+    }
+
+    public function testingform_submit(Request $request){
+
+        $request->validate(
+            [
+                'bill_category_name' => 'required',
+                'bill_category_icon' => 'required',
+                //'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                //'email' => 'required|email|unique:users'
+            ], 
+            [
+                'bill_category_name.required' => 'Category Name is required',
+                'bill_category_icon.required' => 'Category Icon is required'
+            ]
+          );
+
+          $new_bill_category = new BillCategory();
+          $new_bill_category->bill_category_name = $request->bill_category_name;
+          $new_bill_category->bill_category_icon = $request->bill_category_icon;
+          $new_bill_category->save();
+
+          //$notify[] = ['success', 'Bill category added successfully'];
+          //return route('bill.categories');
+          //Toastr::success('Bill category added successfully');
+         // return redirect()->route('bill.categories');
+
+          return redirect()->route('bill.categories')->with('success', 'Bill category added successfully');
+
+        
+    }
+
+    public function checkmeternumber(Request $request){
+        $request->validate(
+            [
+                'umeme_meter_number' => 'required',
+                'payee_code' => 'required'
+            ]
+        );
+        $tag = new Helpers();
+       // $tag->test($card_id);
+        $bill_data = $tag->validate_bill_account($request->payee_code, $request->umeme_meter_number);
+
+        //$response = json_decode($data, true);
+       // dd($response);exit();
+        if($bill_data['respmsg'] == 'SUCCESS'){
+          return redirect()->route('umeme_bill.form')->with('res', $bill_data);
+        } else{
+            //$meter_number->umeme_meter_number = $request->umeme_meter_number;
+           // Toastr::success('Meter Number is Wrong');
+            //return back();
+            /*return back()->withInput();
+            return back()->with('message', [
+                'type' => 'Success',
+                'text' => 'Added successfully',
+            ]);*/
+            return redirect()->back()->withErrors( [ 'umeme_meter_number' => 'Invalid Meter Number' ] );   
+        }
+
+    }
+
+    public function payumemeyaka(Request $request){
+        $request->validate(
+            [
+                'customer_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+                'customer_amount' => 'required'
+            ], 
+            [
+                'customer_phone.required' => 'the phone number is required',
+                'customer_amount.required' => 'please enter the required amount',
+                'customer_phone.regex' => 'the phone number must be in format of xxxx xxxxxx'
+            ]
+        );
+
+        $data = Soap::baseWsdl('http://mmpuchong.mobile-money.com:1668/EMTerminalAPI/API.svc?wsdl')->call('PayBill', [
+            'sccode' => '04251264',
+            'userid' => '4295444830',
+            'password' => '32AB95164D',
+            'sctxnid' => $this->getsctxnid(12),
+            'txntype' => '1',
+            'payeecode' => 'UMEME',
+            'accountno' => $request->umeme_meter_number,
+            'phoneno'=> $request->customer_phone,
+            'amount'=> $request->customer_amount,
+            'remark1'=> 'UMEME TEST',
+            'remark2'=> ''
+        ]);
+
+        $response = json_decode($data, true);
+        //dd($response);exit();
+        $user_id = 12;
+         
+         if($response['respmsg'] == 'SUCCESS'){
+            $new_bill_transaction = new BillTransaction();
+            $new_bill_transaction->user_id = $user_id;
+            $new_bill_transaction->sctrxn_id = $response['sctrxnid'];
+            $new_bill_transaction->user_phone_number = $request->customer_phone;
+            $new_bill_transaction->emtx_id = $response['emtxid'];
+            $new_bill_transaction->txn_fee = $response['txnfee'];
+            $new_bill_transaction->receipt_no = $response['receiptno'];
+            $new_bill_transaction->save();
+            return redirect()->route('bill.transactions')->with('success', 'New transaction added successfully');
+
+          } else{
+            return redirect()->back()->withErrors( );   
+        }
+
+    }
+
+    public function transactions(){
+        $transactions = BillTransaction::all();
+        return view('pages.bill_transactions', [
+            'transactions'   => $transactions,
+            'pageTitle'         => 'Transactions'
+        ]);
+    }
+
+
+    public function umemeform(){
+        return view('pages.bill_forms.umeme', [
+            'pageTitle'         => 'Umeme Yaka Bill'
+        ]);
+    }
+
+    public function getsctxnid($length = 8)  {
+            $characters = '1234567890';
+            $charactersLength = strlen($characters);
+            $randomString = '';
+            for ($i = 0; $i < $length; $i++) {
+                $randomString .= $characters[rand(0, $charactersLength - 1)];
+            }
+            return $randomString;
+    }
+}

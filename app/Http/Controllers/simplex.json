@@ -1,0 +1,22 @@
+//simplex API reponses
+
+//getQuote Method
+{
+    "user_id":"11b111d1-161e-32d9-6bda-7bb2b5c8af17",
+    "quote_id":"5da1f56d-0e09-40d4-9757-25a11748fee8",
+    "wallet_id":"digitalmoneyapi",
+    "digital_money":{
+        "currency":"BTC",
+        "amount":0.00455414
+    },
+    "fiat_money":{
+        "currency":"USD",
+        "base_amount":90,
+        "total_amount":100
+    },
+    "valid_until":"2022-10-24T06:04:58.747Z",
+    "supported_digital_currencies":["LTC","XRP","BTC","XLM","ATOM","TRX","ETH","BUSD","DASH","USDT"],
+     "supported_fiat_currencies":["EUR","JPY","CAD","GBP","AUD","KRW","CHF","CZK","DKK","NOK","NZD","PLN","SEK","TRY","ZAR","HUF","ILS","INR","UAH","HKD","MYR","NGN","SGD","TWD","BGN","BRL","MAD","RON","MXN","VND","KZT","PHP","DOP","PEN","ARS","COP","MDL","QAR","GEL","CNY","UYU","CLP","CRC","AZN","NAD","AED","IDR","ANG","THB","BHD","IQD","JOD","KWD","OMR","USD","DJF","BDT","SAR","LKR","BOB","ALL","BBD","BMD","BND","BWP","EGP","GHS","GTQ","HNL","HRK","TZS","UGX","XAF","XOF","ZMW","KGS","MZN","BAM","MNT","AMD","KHR","KYD","LBP","PAB","PGK","PKR","PYG","KES","RSD","SOS","TTD","MOP","MUR","ISK","JMD","MKD","RUB","UZS"]
+}
+
+//paymentRequest Method
