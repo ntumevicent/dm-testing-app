@@ -10,6 +10,7 @@ use App\Http\Controllers\AjaxController;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CurrencyController;
+use App\Http\Controllers\PageController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -101,6 +102,15 @@ Route::post('/ajaxform', [AjaxController::class, 'ajax_form_submit'])->name('aja
 Route::post('/ajaxtestform', [AjaxController::class, 'ajaxRequestStore'])->name('ajax.request.store');
 
 Route::get('/currency', [CurrencyController::class, 'index']);
+
+Route::get('/page', [PageController::class, 'index']);
+Route::get('/getUsers', [PageController::class, 'getUsers'])->name('reload.getusers');
+Route::get('/getHome', [PageController::class, 'getHome'])->name('reload.gethome');
+Route::get('/getPeople', [PageController::class, 'getPeople'])->name('reload.getpeople');
+
+Route::get('/pagers', [PageController::class, 'pagers']);
+
+Route::get('/tabs', [PageController::class, 'getTabs']);
 
 
 
