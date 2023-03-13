@@ -52,6 +52,7 @@ class PageController extends Controller
             $tabs[$bill_category->id] = [
                 'bill_category_name' => $bill_category->bill_category_name,
                 'bill_category_status' => $bill_category->bill_category_status,
+                'bill_category_show' => $bill_category->bill_category_show,
                 'bills' => $bills
             ];
         }

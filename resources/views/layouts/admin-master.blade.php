@@ -16,40 +16,6 @@
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
   <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
-  <style>
-    .tab-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.tabs {
-  display: flex;
-}
-
-.tab {
-  padding: 8px;
-  background-color: #f1f1f1;
-  cursor: pointer;
-}
-
-.tab.active {
-  background-color: #ddd;
-}
-
-.tab-content-container {
-  display: flex;
-}
-
-.tab-content {
-  display: none;
-  padding: 16px;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-  </style>
 
   <script>
     window.simplexAsyncFunction = function () {
