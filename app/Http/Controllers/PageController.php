@@ -63,4 +63,34 @@ class PageController extends Controller
             'tabs' => $tabs
          ]);
     }
+
+    public function tabsSubmit(Request $request){
+          $new_bill = new Bill();
+          $new_bill->bill_category_id = $request->bill_id;
+          $new_bill->bill_name = 'testing';
+          $new_bill->payee_code = 'testing';
+          $new_bill->bill_icon = 'fa-credit-card';
+          $new_bill->save();
+          return redirect()->route('bill.categories')->with('success', 'Bill category added successfully');
+    }
+
+
+
+    public function getBillsData($id){
+        $bill_data = Bill::find($id);
+        $data = $bill_data->bill_name;
+
+        return $data;
+    }
+
+    public function viewbillcategoryf($id){
+        $bill_category = BillCategory::find($id);
+        $get_bills = Bill::with('bill_category')->where('bill_category_id', $id)->get();
+
+        return view('pages.billcategory', [
+            'get_bills'         => $get_bills,
+            'pageTitle'         => $bill_category->bill_category_name
+        ]);
+       
+    }
 }

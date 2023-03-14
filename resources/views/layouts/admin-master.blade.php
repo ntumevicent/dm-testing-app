@@ -44,6 +44,28 @@
   <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
   <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+  <script>
+		$(document).ready(function(){
+			$('input[type="radio"]').click(function(){
+        $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        var id = $(this).val();
+        var url = "{{route('bill.data', ':id')}}";
+        url = url.replace(':id', id);
+				
+				$.ajax({
+					type: "POST",
+					url: url,
+					success: function(response){
+						$('#result').html(response);
+					}
+				});
+			});
+		});
+	</script>
 
   <script>
     $(document).ready(function(){

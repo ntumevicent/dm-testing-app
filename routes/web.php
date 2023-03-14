@@ -111,6 +111,8 @@ Route::get('/getPeople', [PageController::class, 'getPeople'])->name('reload.get
 Route::get('/pagers', [PageController::class, 'pagers']);
 
 Route::get('/tabs', [PageController::class, 'getTabs']);
+Route::post('/tabs', [PageController::class, 'tabsSubmit'])->name('tabs-submit');
+Route::post('/tabs/{id}', [PageController::class, 'getBillsData'])->name('bill.data');
 
 
 
