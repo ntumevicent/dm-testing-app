@@ -22,10 +22,10 @@ View Bill Category
                   @endforeach
                 </ul>
                 <div class="tab-content" id="myTabContent">
+                  <form  action="{{ route('tabs-submit') }}" method="POST">
+                    @csrf
                     @foreach ($tabs as $id => $tab)
-                  <div class="tab-pane fade {{ $tab['bill_category_show'] }} {{ $tab['bill_category_status'] }}" id="{{ $tab['bill_category_name'] }}" role="tabpanel" aria-labelledby="{{ $id }}-tab">
-                    <form  action="{{ route('tabs-submit') }}" method="POST">
-                      @csrf
+                  <div class="tab-pane fade {{ $tab['bill_category_status'] }} {{ $tab['bill_category_show'] }}" id="{{ $id }}" role="tabpanel" aria-labelledby="{{ $id }}-tab">
                     <div class="form-group">
                         <label class="form-label">{{ $tab['bill_category_name'] }}</label>
                         <div class="selectgroup selectgroup-pills">
@@ -37,17 +37,16 @@ View Bill Category
                           @endforeach
                         </div>
                     </div>
-                    <h5>Selected: <span id="result"></span></h5>
+                  </div>
+                  @endforeach
+                  <h4>Selected: <span id="result"></span></h4>
                     <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-lg btn-block btn-submit">
                         Submit Now
                       </button>
                     </div>
                   </form>
-                  </div>
-                  @endforeach
                 </div>
-                
               </div>
             </div>
           </div>

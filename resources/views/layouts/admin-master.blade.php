@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
 
+
   <script>
     window.simplexAsyncFunction = function () {
         Simplex.init({public_key: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwYXJ0bmVyIjoiZGlnaXRhbG1vbmV5YXBpIiwiaXAiOlsiMS4yLjMuNCJdLCJzYW5kYm94Ijp0cnVlfQ.E95secL3hQF9GnFzvjFSxDdhDFR0EXv069K1r_FdY_4' })
@@ -44,6 +45,22 @@
   <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
   <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      // listen for click event on tab links
+      $('#myTab a').click(function(e) {
+        e.preventDefault();
+        // get the ID of the clicked tab link
+        var tabId = $(this).attr('href');
+        // hide all tab panes
+        $('.tab-pane').removeClass('active show');
+        // show the clicked tab pane
+        $(tabId).addClass('active show');
+      });
+    });
+  </script>
+
   <script>
 		$(document).ready(function(){
 			$('input[type="radio"]').click(function(){
