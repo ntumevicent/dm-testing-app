@@ -91,6 +91,14 @@ class PageController extends Controller
             'get_bills'         => $get_bills,
             'pageTitle'         => $bill_category->bill_category_name
         ]);
-       
+    }
+
+    public function getBills(){
+        $bills = Bill::all();
+
+        return view('pages.bills', [
+            'bills'         => $bills,
+            'pageTitle'         => 'Bills'
+        ]);
     }
 }

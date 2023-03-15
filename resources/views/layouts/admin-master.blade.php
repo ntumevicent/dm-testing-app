@@ -81,7 +81,16 @@
 					}
 				});
 			});
+
 		});
+    function billStatus(id) {
+       // var song_id = id;
+        console.log('clicked');
+        console.log(id);
+        
+        //$.post(baseurl + 'song/increment_download_count/'+song_id);
+       // $.post(baseurl + 'song/add_download_statictics/'+song_id);
+    }
 	</script>
 
   <script>
