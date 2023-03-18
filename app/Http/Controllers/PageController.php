@@ -101,4 +101,21 @@ class PageController extends Controller
             'pageTitle'         => 'Bills'
         ]);
     }
+
+    public function billChangeStatus($id){
+        $bills = Bill::where('bill_status', $id)->update(['bill_status' => true]);;
+
+        $bill_status = new Bill();
+
+        $message = 'updated the status';
+        return $message;
+    }
+
+    public function getSurvey(){
+        //$bills = Bill::all();
+
+        return view('survey.survey', [
+            'pageTitle'         => 'Survey'
+        ]);
+    }
 }

@@ -31,7 +31,7 @@ View Bill Category
                         <div class="selectgroup selectgroup-pills">
                             @foreach ($tab['bills']  as $bill)
                           <label class="selectgroup-item">
-                            <input type="radio" name="bill_id" value="{{ $bill->id }}" class="selectgroup-input">
+                            <input type="radio" name="bill_id" value="{{ $bill->id }}" class="selectgroup-input" onclick="updateLevelResult('{{ $bill->bill_name }}')">
                             <span class="selectgroup-button selectgroup-button-icon"> {{ $bill->bill_name }}</span>
                           </label>
                           @endforeach
@@ -39,7 +39,7 @@ View Bill Category
                     </div>
                   </div>
                   @endforeach
-                  <h4>Selected: <span id="result"></span></h4>
+                  <h4>Selected: <span id="level-result"></span></h4>
                     <div class="form-group">
                       <button type="submit" class="btn btn-primary btn-lg btn-block btn-submit">
                         Submit Now

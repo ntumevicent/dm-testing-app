@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
   <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
+  <style>
+    
+  </style>
+
 
 
   <script>
@@ -60,6 +64,12 @@
       });
     });
   </script>
+
+<script>
+  function updateLevelResult(levelName) {
+      document.getElementById("level-result").textContent = levelName;
+  }
+</script>
 
   <script>
 		$(document).ready(function(){

@@ -117,6 +117,8 @@ Route::post('/tabs/{id}', [PageController::class, 'getBillsData'])->name('bill.d
 Route::get('/bills', [PageController::class, 'getBills']);
 Route::post('/billchangestatus', [PageController::class, 'billChangeStatus'])->name('bill.data');
 
+Route::get('/survey', [PageController::class, 'getSurvey']);
+
 
 
 
