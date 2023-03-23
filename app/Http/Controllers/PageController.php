@@ -83,6 +83,8 @@ class PageController extends Controller
         return $data;
     }
 
+    
+
     public function viewbillcategoryf($id){
         $bill_category = BillCategory::find($id);
         $get_bills = Bill::with('bill_category')->where('bill_category_id', $id)->get();
