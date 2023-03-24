@@ -59,9 +59,19 @@ class PhotoController extends Controller
         
     }
 
-    public function EditPage($id){
+    public function editPage($id){
         $photo = Photo::findOrFail($id);
         return view('photos.edit', compact('photo',));
+    }
+
+    public function deletePhoto($id){
+        $photo = Photo::findOrFail($id);
+        $photo->delete();
+       // return reponse()->json(['status', 'Photo deleted successfully']);
+
+        return response()->json([
+            'success' => 'Data deleted successfully!'
+        ]);
     }
 
 

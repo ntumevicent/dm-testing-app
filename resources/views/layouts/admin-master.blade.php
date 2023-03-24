@@ -66,7 +66,9 @@
       </div>
     </div>
   </div>
-
+<script>
+  let mainurl = '{{ url('/') }}';
+</script>
   <script src="{{ asset('js/app.js') }}?{{ uniqid() }}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
@@ -125,20 +127,139 @@
     @endif
 </script>
 
+
+<script>
+  $('.delete-photo').click(function (e) {
+    e.preventDefault();
+    var photo_id = $(this).data('id');
+    swal({
+      title: 'Are you sure?',
+      icon: 'warning',
+      buttons: true,
+      buttons: ["No, Cancel", "Yes, Delete"],
+      dangerMode: true,
+    }).then((result) => {
+        if (result) {
+            $.ajax({
+                url: `${mainurl}/photo/delete/${photo_id}`,
+                type: 'DELETE',
+                dataType: 'JSON',
+                data: {
+                    "id": photo_id,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function (response) {
+                  swal(response.success, {
+                    icon: 'success',
+                  })
+                  .then((result) => {
+                     location.reload();
+                  });
+                }/*,
+                error: function (response) {
+                    swal(
+                        'Error!',
+                        'An error occurred while deleting the data.',
+                        'error'
+                    );
+                }*/
+            });
+        }
+    });
+});
+
+</script>
+
+
+
   <script>
     $(document).ready(function() {
-      // listen for click event on tab links
-      $('#myTab a').click(function(e) {
+      $(".delete-phvvoto").click(function(e) {
         e.preventDefault();
-        // get the ID of the clicked tab link
-        var tabId = $(this).attr('href');
-        // hide all tab panes
-        $('.tab-pane').removeClass('active show');
-        // show the clicked tab pane
-        $(tabId).addClass('active show');
+
+        var photo_id = $(this).data('id');
+        //var photo_id = $(this).closest("tr").find('.delete-value').val();
+       // alert(photo_id);
+       let url = `${mainurl}/photo/delete/${photo_id}`;
+
+
+        swal({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this imaginary file!',
+            icon: 'warning',
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+              $.post(url, function(response){
+                //$("#result").html(response);
+                  swal(response.status, {
+                    icon: 'success',
+                  })
+                  .then((willDelete) => {
+                     location.reload();
+                  });
+              });
+            }
+        });
+
       });
+      
     });
   </script>
+
+  <script>
+    $(".delete-phgoto").click(function() {
+      var id = $(this).data('id');
+        swal({
+            title: 'Are you sure?',
+            //text: 'Once deleted, you will not be able to recover this imaginary file!',
+            icon: 'error',
+            buttons: true,
+            dangerMode: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          })
+          .then((data) => {
+            swal('Good Job', 'You clicked the button!', 'success');
+          });
+      });
+  </script>
+
+
+<script>
+  $(document).on('click', '.delete-photmo', function (e) {
+
+
+    e.preventDefault();
+    var id = $(this).data('id');
+
+
+
+    swal({
+            title: "Are you sure!",
+            type: "error",
+            confirmButtonClass: "btn-danger",
+            confirmButtonText: "Yes!",
+            showCancelButton: true,
+        },
+        function() {
+            $.ajax({
+                type: "POST",
+                url: "{{url('/destroy')}}",
+                data: {id:id},
+                success: function (data) {
+                              //
+                    }         
+            });
+    });
+});
+</script>
+
+
+
 
 <script>
   function updateLevelResult(levelName) {
@@ -160,31 +281,7 @@
   })
 </script>
 
-  <script>
-		$(document).ready(function(){
-			$('input[type="radimmdo"]').click(function(){
-        $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-        var id = 8; //$(this).val();
-        var url = "{{route('bill.data', ':id')}}";
-        url = url.replace(':id', id);
-
-
-        var myurl = {{ route('bill.data',"+id+") }},
-				
-				$.ajax({
-					type: "POST",
-					url: url,
-					success: function(response){
-						$('#resulte').html(response);
-					}
-				});
-			});
-
-		});
+  <script>			
     function billStatus(id) {
        // var song_id = id;
         console.log('clicked');

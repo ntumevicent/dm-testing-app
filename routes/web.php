@@ -125,8 +125,9 @@ Route::get('/photos', [PhotoController::class, 'getPhotos']);
 Route::get('/photo/create', [PhotoController::class, 'createPage']);
 Route::post('/photo/create', [PhotoController::class, 'storePhoto'])->name('store.photo');
 
-Route::get('/photo/edit/{id}', [PhotoController::class, 'EditPage'])->name('edit.page');
-Route::post('/photo/edit', [PhotoController::class, 'EditPhoto'])->name('edit.photo');
+Route::get('/photo/edit/{id}', [PhotoController::class, 'editPage'])->name('edit.page');
+Route::post('/photo/edit', [PhotoController::class, 'editPhoto'])->name('edit.photo');
+Route::delete('/photo/delete/{id}', [PhotoController::class, 'deletePhoto']);
 
 
 
