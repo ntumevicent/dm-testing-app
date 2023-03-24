@@ -11,6 +11,7 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PhotoController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -118,6 +119,14 @@ Route::get('/bills', [PageController::class, 'getBills']);
 Route::post('/billchangestatus', [PageController::class, 'billChangeStatus'])->name('bill.data');
 
 Route::get('/survey', [PageController::class, 'getSurvey']);
+
+
+Route::get('/photos', [PhotoController::class, 'getPhotos']);
+Route::get('/photo/create', [PhotoController::class, 'createPage']);
+Route::post('/photo/create', [PhotoController::class, 'storePhoto'])->name('store.photo');
+
+Route::get('/photo/edit/{id}', [PhotoController::class, 'EditPage'])->name('edit.page');
+Route::post('/photo/edit', [PhotoController::class, 'EditPhoto'])->name('edit.photo');
 
 
 

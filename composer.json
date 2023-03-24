@@ -31,7 +31,7 @@
         },
         "files": [  
             "app/CentralLogics/helpers.php",
-            "app/Helpers/helper.php"
+            "app/Helpers/helpers.php"
         ]
     },
     "autoload-dev": {
