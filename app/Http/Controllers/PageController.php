@@ -104,13 +104,14 @@ class PageController extends Controller
         ]);
     }
 
-    public function billChangeStatus($id){
-        $bills = Bill::where('bill_status', $id)->update(['bill_status' => true]);;
+    public function billChangeStatus(Request $request){
+        $bill_id =  $request->bill_id;
+        $bill_status = $request->bill_status;
+        Bill::where('id', $bill_id)->update(['bill_status' => $bill_status]);
 
-        $bill_status = new Bill();
-
-        $message = 'updated the status';
-        return $message;
+        return response()->json([
+            'success' => 'Status updated successfully!'
+        ]);
     }
 
     public function getSurvey(){

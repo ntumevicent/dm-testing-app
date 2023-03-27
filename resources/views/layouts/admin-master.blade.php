@@ -13,8 +13,8 @@
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/components.css')}}">
-  <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+  <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/izitoast/css/iziToast.min.css') }}">
 
   <style>
     
@@ -76,6 +76,7 @@
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <script src="{{ asset('assets/modules/sweetalert/sweetalert.min.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-sweetalert.js') }}"></script>
+  <script src="{{ asset('assets/modules/izitoast/js/iziToast.min.js') }}"></script>
   <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
 
   <script>
@@ -149,8 +150,9 @@
                     "_token": "{{ csrf_token() }}",
                 },
                 success: function (response) {
-                  swal(response.success, {
-                    icon: 'success',
+                  iziToast.success({
+                    message: response.success,
+                    position: 'topRight'
                   })
                   .then((result) => {
                      location.reload();
@@ -170,103 +172,6 @@
 
 </script>
 
-
-
-  <script>
-    $(document).ready(function() {
-      $(".delete-phvvoto").click(function(e) {
-        e.preventDefault();
-
-        var photo_id = $(this).data('id');
-        //var photo_id = $(this).closest("tr").find('.delete-value').val();
-       // alert(photo_id);
-       let url = `${mainurl}/photo/delete/${photo_id}`;
-
-
-        swal({
-            title: 'Are you sure?',
-            text: 'Once deleted, you will not be able to recover this imaginary file!',
-            icon: 'warning',
-            buttons: true,
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-              $.post(url, function(response){
-                //$("#result").html(response);
-                  swal(response.status, {
-                    icon: 'success',
-                  })
-                  .then((willDelete) => {
-                     location.reload();
-                  });
-              });
-            }
-        });
-
-      });
-      
-    });
-  </script>
-
-  <script>
-    $(".delete-phgoto").click(function() {
-      var id = $(this).data('id');
-        swal({
-            title: 'Are you sure?',
-            //text: 'Once deleted, you will not be able to recover this imaginary file!',
-            icon: 'error',
-            buttons: true,
-            dangerMode: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-          })
-          .then((data) => {
-            swal('Good Job', 'You clicked the button!', 'success');
-          });
-      });
-  </script>
-
-
-<script>
-  $(document).on('click', '.delete-photmo', function (e) {
-
-
-    e.preventDefault();
-    var id = $(this).data('id');
-
-
-
-    swal({
-            title: "Are you sure!",
-            type: "error",
-            confirmButtonClass: "btn-danger",
-            confirmButtonText: "Yes!",
-            showCancelButton: true,
-        },
-        function() {
-            $.ajax({
-                type: "POST",
-                url: "{{url('/destroy')}}",
-                data: {id:id},
-                success: function (data) {
-                              //
-                    }         
-            });
-    });
-});
-</script>
-
-
-
-
-<script>
-  function updateLevelResult(levelName) {
-      document.getElementById("level-result").textContent = levelName;
-  }
-</script>
-
 <script>
   'use strict';
   
@@ -282,14 +187,30 @@
 </script>
 
   <script>			
-    function billStatus(id) {
-       // var song_id = id;
-        console.log('clicked');
-        console.log(id);
-        
-        //$.post(baseurl + 'song/increment_download_count/'+song_id);
-       // $.post(baseurl + 'song/add_download_statictics/'+song_id);
-    }
+    function billStatus(radio) {
+       var  bill_id = radio.getAttribute('data-id');
+       var bill_status = radio.value;
+
+       $.ajax({
+        type: 'POST',
+        url: '{{ route('bill.status') }}',
+        dataType: 'JSON',
+        data: {
+          "bill_id": bill_id,
+          "bill_status": bill_status,
+          "_token": "{{ csrf_token() }}",
+        },
+        success: function(response) {
+            iziToast.success({
+              message: response.success,
+              position: 'topRight'
+            });
+        },
+        error: function(response) {
+            console.log('Error updating radio status');
+        }
+    });
+  }
 	</script>
 
   <script>
