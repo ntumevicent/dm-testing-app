@@ -205,6 +205,7 @@
               message: response.success,
               position: 'topRight'
             });
+            window.location.reload();
         },
         error: function(response) {
             console.log('Error updating radio status');

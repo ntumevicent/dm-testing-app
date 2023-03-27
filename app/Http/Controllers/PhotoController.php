@@ -59,6 +59,29 @@ class PhotoController extends Controller
         
     }
 
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'photo_title' => 'required',
+    ]);
+
+    $photo = Photo::find($id);
+
+    if ($request->hasFile('photo')) {
+        $temp_name = $request->file('photo');
+        $filename = uniqid().time().$temp_name->getClientOriginalName();
+        $temp_name->move('assets/images/photos',$filename);
+        $photo->photo = $filename;
+    }
+
+    $photo->photo_title = $request->photo_title;
+    $photo->save();
+
+    return redirect()->back()->with('success', 'Photo updated successfully');
+}
+
+
+
     public function editPage($id){
         $photo = Photo::findOrFail($id);
         return view('photos.edit', compact('photo',));
@@ -73,6 +96,60 @@ class PhotoController extends Controller
             'success' => 'Data deleted successfully!'
         ]);
     }
+
+    public function storePhotoo(Request $request, $id = null) {
+    $rules = [
+        'photo_title' => 'required',
+    ];
+
+    if ($request->hasFile('photo')) {
+        $rules['photo'] = 'image|max:2048';
+    }
+
+    $request->validate($rules, [
+        'photo.image' => 'The uploaded file must be an image.',
+        'photo.max' => 'The uploaded file may not be larger than 2MB.',
+    ]);
+
+    $photo = $id ? Photo::findOrFail($id) : new Photo;
+
+    if ($request->hasFile('photo')) {
+        $file = $request->file('photo');
+        $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->move('assets/images/photos', $filename);
+        $photo->photo = $filename;
+    }
+
+    $photo->photo_title = $request->photo_title;
+    $photo->save();
+
+    return redirect()->back()->with('success', 'Photo updated successfully.');
+}
+
+public function storePhotos(Request $request)
+{
+    $request->validate([
+        'photo_title' => 'required',
+        'photo' => 'required|image|max:2048',
+    ], [
+        'photo.required' => 'Please select a photo to upload.',
+        'photo.image' => 'The uploaded file must be an image.',
+        'photo.max' => 'The uploaded file may not be larger than 2MB.',
+    ]);
+
+    $file = $request->file('photo');
+    $filename = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+    $file->move('assets/images/photos', $filename);
+
+    $photo = new Photo;
+    $photo->photo_title = $request->photo_title;
+    $photo->photo = $filename;
+    $photo->save();
+
+    return redirect()->back()->with('success', 'Photo uploaded successfully.');
+}
+
+
 
 
 }
