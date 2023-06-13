@@ -129,6 +129,8 @@ Route::get('/photo/edit/{id}', [PhotoController::class, 'editPage'])->name('edit
 Route::post('/photo/edit', [PhotoController::class, 'editPhoto'])->name('edit.photo');
 Route::delete('/photo/delete/{id}', [PhotoController::class, 'deletePhoto']);
 
+Route::get('/blogs', [PageController::class, 'getBlogs']);
+
 
 
 

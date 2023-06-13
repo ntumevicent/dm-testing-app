@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\BillCategory;
 use App\Models\Bill;
+use App\Models\Photo;
 use App\Models\BillTransaction;
 use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
@@ -119,6 +120,18 @@ class PageController extends Controller
 
         return view('survey.survey', [
             'pageTitle'         => 'Survey'
+        ]);
+    }
+
+    public function getBlogs(){
+        $bills = Bill::all();
+        $photos = Photo::all();
+        $bill_categories = BillCategory::all();
+
+        return view('pages.blogs', [
+            'photos'   => $photos,
+            'bills'             => $bills,
+            'pageTitle'         => 'Bills'
         ]);
     }
 }
