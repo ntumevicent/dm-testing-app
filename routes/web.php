@@ -131,6 +131,9 @@ Route::delete('/photo/delete/{id}', [PhotoController::class, 'deletePhoto']);
 
 Route::get('/blogs', [PageController::class, 'getBlogs']);
 
+Route::get('/profile', [PageController::class, 'getProfile']);
+Route::post('/profile-image', [PageController::class, 'updateProfileImage'])->name('profile.image');
+
 
 
 

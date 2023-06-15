@@ -39,6 +39,28 @@
 .whatsapp-ico:hover{
     box-shadow: 2px 2px 11px rgba(0,0,0,0.7);
 }
+
+.cardss {
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.10);
+}
+
+.cards {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.card {
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+
 </style>
 
 

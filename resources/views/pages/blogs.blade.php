@@ -8,6 +8,17 @@ Testing Blogs
 <section class="section">
     
   <div class="section-body">
+    <div class="cardss">
+      <h2>Card Title</h2>
+      <p>This is the content of the card.</p>
+    </div>
+<br/><br/>
+    <div class="cards">
+      <h2>Card Title</h2>
+      <p>This is the content of the card.</p>
+    </div>
+
+
     <div class="card-body">
         @foreach ($bills as $key => $bill)
                         <div class="row">
@@ -22,6 +33,9 @@ Testing Blogs
                     @endif
         @endforeach
     </div>
+
+    
+
   </div>
 </section>
 @endsection

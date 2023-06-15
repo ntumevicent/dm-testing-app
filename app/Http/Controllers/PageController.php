@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\CentralLogics\Helpers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PageController extends Controller
 {
@@ -133,5 +134,36 @@ class PageController extends Controller
             'bills'             => $bills,
             'pageTitle'         => 'Bills'
         ]);
+    }
+
+    public function getProfile(){
+
+        return view('pages.profile', [
+            'pageTitle'         => 'Bills'
+        ]);
+    }
+
+    public function updateProfileImage(Request $request){
+        $user_id = $request->id;
+        $user = User::find($user_id);
+
+        if($request->hasFile('picture')){
+            $file = $request->file('picture');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $file->storeAs('public/assets/images/photos/', $fileName);
+
+            if($user->picture) {
+                Storage::delete('public/assets/images/photos/'.$user->picture);
+            }
+        }
+        User::where('id', $user_id)->update([
+            'picture' => $fileName
+        ]);
+        
+        return response()->json([
+            'status' => 200,
+            'success' => 'profile image updated successfully!'
+        ]);
+
     }
 }
