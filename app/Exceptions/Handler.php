@@ -2,6 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Models\SystemLog;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -34,8 +37,12 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
+       // $this->reportable(function (Throwable $e) {
             //
+       // });
+
+        $this->reportable(function (Exception $e) {
+            SystemLog::error($e->getMessage());
         });
     }
 }
